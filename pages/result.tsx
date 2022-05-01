@@ -32,7 +32,7 @@ const Result: NextPage<Props> = props => {
 
 			<div className='p-8 italic text-3xl'>Result</div>
 
-			<div className='w-2/3'>
+			<div className='w-1/2'>
 				{props.result.map((anime: Anime) => (
 					<div key={anime.id} className='flex m-8 items-center'>
 						<div className='flex-initial w-20'>{anime.name}</div>
