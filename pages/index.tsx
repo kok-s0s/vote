@@ -19,9 +19,12 @@ const Home: NextPage = () => {
 				<div className='h-36 w-36 bg-pink-300'></div>
 			</div>
 
-			<div className='text-xl pb-4'>
+			<div className='w-80 flex justify-around text-xl pb-4'>
 				<Link href='/result'>
 					<a>Result</a>
+				</Link>
+				<Link href='/about'>
+					<a>About</a>
 				</Link>
 			</div>
 		</div>
