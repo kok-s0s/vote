@@ -16,6 +16,7 @@ model Anime {
   description String
   link        String
   image       String
+  count       Int
   AnimeType   AnimeType? @relation(fields: [animeTypeId], references: [id])
   animeTypeId String?    @db.ObjectId
 }
