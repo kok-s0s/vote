@@ -23,7 +23,7 @@ type Props = {
 	result: Anime[];
 };
 
-const Result: NextPage<Props> = props => {
+const Result: React.FC<Props> = props => {
 	return (
 		<div className='h-screen w-screen flex flex-col justify-evenly items-center relative'>
 			<Head>
