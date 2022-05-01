@@ -1,14 +1,15 @@
-import type { NextPage, GetServerSideProps } from 'next';
+import { PrismaClient } from '@prisma/client';
 import Head from 'next/head';
 import Image from 'next/image';
 
-export const getServerSideProps: GetServerSideProps = async () => {
-	const res = await fetch('http://localhost:3000/api/result');
-	const result = await res.json();
+export async function getStaticProps() {
+	const prisma = new PrismaClient();
+	const result = await prisma.anime.findMany();
+
 	return {
 		props: { result },
 	};
-};
+}
 
 interface Anime {
 	id: string;
