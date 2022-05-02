@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -6,15 +5,6 @@ import React from 'react'
 import useSWR from 'swr'
 import fetcher from '../utils/fetcher'
 import type Anime from '../globals/types'
-
-export async function getStaticProps() {
-  const prisma = new PrismaClient()
-  const result = await prisma.anime.findMany()
-
-  return {
-    props: { result },
-  }
-}
 
 const AnimeList: React.FC<{ anime: Anime }> = ({ anime }) => {
   return (
