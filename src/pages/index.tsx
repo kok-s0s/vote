@@ -8,11 +8,11 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 
 interface Props {
   anime: Anime
-  changeState: Boolean
-  setChangeState: Function
+  chooseState: Boolean
+  setChooseState: Function
 }
 
-const AnimeCard: React.FC<Props> = ({ anime, changeState, setChangeState }) => {
+const AnimeCard: React.FC<Props> = ({ anime, chooseState, setChooseState }) => {
   return (
     <div className="flex flex-col items-center">
 
@@ -32,7 +32,7 @@ const AnimeCard: React.FC<Props> = ({ anime, changeState, setChangeState }) => {
       </div>
 
       <button className="border rounded-lg m-2 p-1 bg-gray-100 text-gray-800" onClick={() => {
-        setChangeState(!changeState)
+        setChooseState(!chooseState)
       }}>Choose</button>
 
     </div>
@@ -41,9 +41,9 @@ const AnimeCard: React.FC<Props> = ({ anime, changeState, setChangeState }) => {
 
 const Home: NextPage = () => {
   const [randomFirst, setRandomFirst] = useLocalStorage('randomFirst', {} as Anime)
-  const [changeFirst, setChangeFirst] = useState(false)
+  const [chooseFirst, setChooseFirst] = useState(false)
   const [randomSecond, setRandomSecond] = useLocalStorage('randomSecond', {} as Anime)
-  const [changeSecond, setChangeSecond] = useState(false)
+  const [chooseSecond, setChooseSecond] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -69,24 +69,7 @@ const Home: NextPage = () => {
             setRandomSecond(data)
           })
       }
-      else if (changeFirst) {
-        const pendingUpgrade = randomFirst
-        const changeless = randomSecond
-        const body = { pendingUpgrade, changeless }
-
-        await fetch('/api/randomOne', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        })
-          .then(res => res.json())
-          .then((data) => {
-            setRandomFirst(data)
-          })
-
-        setChangeFirst(!changeFirst)
-      }
-      else if (changeSecond) {
+      else if (chooseFirst) {
         const pendingUpgrade = randomSecond
         const changeless = randomFirst
         const body = { pendingUpgrade, changeless }
@@ -101,14 +84,31 @@ const Home: NextPage = () => {
             setRandomSecond(data)
           })
 
-        setChangeSecond(!changeSecond)
+        setChooseFirst(!chooseFirst)
+      }
+      else if (chooseSecond) {
+        const pendingUpgrade = randomFirst
+        const changeless = randomSecond
+        const body = { pendingUpgrade, changeless }
+
+        await fetch('/api/randomOne', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        })
+          .then(res => res.json())
+          .then((data) => {
+            setRandomFirst(data)
+          })
+
+        setChooseSecond(!chooseSecond)
       }
 
       setLoading(false)
     }
 
     genRandomAnimes()
-  }, [changeFirst, changeSecond])
+  }, [chooseFirst, chooseSecond])
 
   if (loading)
     return <div className="h-screen w-48 flex mx-auto"><img src="/rings.svg" alt="rings" /></div>
@@ -122,9 +122,9 @@ const Home: NextPage = () => {
       <div className="font-mono text-xl text-center pt-8 text-green-100 sm:text-2xl">Which anime do you prefer<span className="italic text-2xl text-yellow-100 sm:text-4xl">?</span></div>
 
       <div className="p-8 flex justify-between items-center max-w-2xl flex-col sm:flex-row animate-fade-in">
-        {randomFirst === null ? '' : <AnimeCard anime={randomFirst} changeState={changeFirst} setChangeState={setChangeFirst}/>}
+        {randomFirst === null ? '' : <AnimeCard anime={randomFirst} chooseState={chooseFirst} setChooseState={setChooseFirst}/>}
         <div className="p-8 italic text-xl">Vs</div>
-        {randomFirst === null ? '' : <AnimeCard anime={randomSecond} changeState={changeSecond} setChangeState={setChangeSecond}/>}
+        {randomFirst === null ? '' : <AnimeCard anime={randomSecond} chooseState={chooseSecond} setChooseState={setChooseSecond}/>}
       </div>
 
       <div className="w-80 flex justify-around text-xl pb-4">
