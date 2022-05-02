@@ -8,7 +8,7 @@ import type Anime from '../globals/types'
 
 const AnimeList: React.FC<{ anime: Anime }> = ({ anime }) => {
   return (
-    <div className="relative flex border-b p-2 items-center justify-between">
+    <div className="flex border-b p-2 items-center justify-between">
 
       <div className="relative w-24 h-32 sm:w-32 sm:h-40 flex-none">
         <Image
