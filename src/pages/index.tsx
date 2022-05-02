@@ -51,20 +51,34 @@ const Home: NextPage = () => {
 
     const genRandomAnimes = async () => {
       if (Object.keys(randomFirst).length === 0 && Object.keys(randomSecond).length === 0) {
-        await fetch('/api/randomOne')
+        const first = await fetch('/api/randomOne')
           .then(res => res.json())
           .then((data) => {
             setRandomFirst(data)
+            return data
           })
+        const body = { first }
 
-        await fetch('/api/randomOne')
+        await fetch('/api/randomOne', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        })
           .then(res => res.json())
           .then((data) => {
             setRandomSecond(data)
           })
       }
       else if (changeFirst) {
-        await fetch('/api/randomOne')
+        const pendingUpgrade = randomFirst
+        const changeless = randomSecond
+        const body = { pendingUpgrade, changeless }
+
+        await fetch('/api/randomOne', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        })
           .then(res => res.json())
           .then((data) => {
             setRandomFirst(data)
@@ -73,7 +87,15 @@ const Home: NextPage = () => {
         setChangeFirst(!changeFirst)
       }
       else if (changeSecond) {
-        await fetch('/api/randomOne')
+        const pendingUpgrade = randomSecond
+        const changeless = randomFirst
+        const body = { pendingUpgrade, changeless }
+
+        await fetch('/api/randomOne', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        })
           .then(res => res.json())
           .then((data) => {
             setRandomSecond(data)
