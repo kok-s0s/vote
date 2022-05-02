@@ -3,6 +3,9 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import useSWR from 'swr'
+import fetcher from '../utils/fetcher'
+import type Anime from '../globals/types'
 
 export async function getStaticProps() {
   const prisma = new PrismaClient()
@@ -11,19 +14,6 @@ export async function getStaticProps() {
   return {
     props: { result },
   }
-}
-
-interface Anime {
-  id: string
-  name: string
-  description: string
-  link: string
-  image: string
-  count: number
-}
-
-interface Props {
-  result: Anime[]
 }
 
 const AnimeList: React.FC<{ anime: Anime }> = ({ anime }) => {
@@ -52,7 +42,19 @@ const AnimeList: React.FC<{ anime: Anime }> = ({ anime }) => {
   )
 }
 
-const Result: React.FC<Props> = (props) => {
+const Result: React.FC = () => {
+  const { data, error } = useSWR('/api/animes', fetcher)
+  if (error) {
+    return (
+      <div className="h-screen w-48 flex flex-col justify-center mx-auto">
+        <img src="/github.png" alt="github"/>
+        <span className="text-center italic text-3xl">Try Again!</span>
+      </div>
+    )
+  }
+  if (!data)
+    return <div className="h-screen w-48 flex mx-auto"><img src="/rings.svg" alt="rings" /></div>
+
   return (
     <div className="flex flex-col items-center">
       <Head>
@@ -66,7 +68,7 @@ const Result: React.FC<Props> = (props) => {
       <div className="p-4 italic text-3xl">Result</div>
 
       <div className="flex flex-col w-full max-w-4xl border">
-        {props.result.map((curAnime: Anime) => (
+        {data.map((curAnime: Anime) => (
           <AnimeList anime={curAnime} key={curAnime.id} />
         ))}
       </div>
