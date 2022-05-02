@@ -4,8 +4,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import type Anime from '../globals/types'
+import { useLocalStorage } from '../hooks/useLocalStorage'
 
-const AnimeCard: React.FC<{ anime: Anime }> = ({ anime }) => {
+interface Props {
+  anime: Anime
+  changeState: Boolean
+  setChangeState: Function
+}
+
+const AnimeCard: React.FC<Props> = ({ anime, changeState, setChangeState }) => {
   return (
     <div className="flex flex-col items-center">
 
@@ -24,37 +31,62 @@ const AnimeCard: React.FC<{ anime: Anime }> = ({ anime }) => {
         {anime.name}
       </div>
 
-      <button className="border rounded-lg m-2 p-1 bg-gray-100 text-gray-800">Choose</button>
+      <button className="border rounded-lg m-2 p-1 bg-gray-100 text-gray-800" onClick={() => {
+        setChangeState(!changeState)
+      }}>Choose</button>
 
     </div>
   )
 }
 
 const Home: NextPage = () => {
-  const [randomFirst, setRandomFirst] = useState({} as Anime)
-  const [randomSecond, setRandomSecond] = useState({} as Anime)
+  const [randomFirst, setRandomFirst] = useLocalStorage('randomFirst', {} as Anime)
+  const [changeFirst, setChangeFirst] = useState(false)
+  const [randomSecond, setRandomSecond] = useLocalStorage('randomSecond', {} as Anime)
+  const [changeSecond, setChangeSecond] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     setLoading(true)
-    const genRandomAnimes = async () => {
-      await fetch('/api/randomOne')
-        .then(res => res.json())
-        .then((data) => {
-          setRandomFirst(data)
-        })
 
-      await fetch('/api/randomOne')
-        .then(res => res.json())
-        .then((data) => {
-          setRandomSecond(data)
-        })
+    const genRandomAnimes = async () => {
+      if (Object.keys(randomFirst).length === 0 && Object.keys(randomSecond).length === 0) {
+        await fetch('/api/randomOne')
+          .then(res => res.json())
+          .then((data) => {
+            setRandomFirst(data)
+          })
+
+        await fetch('/api/randomOne')
+          .then(res => res.json())
+          .then((data) => {
+            setRandomSecond(data)
+          })
+      }
+      else if (changeFirst) {
+        await fetch('/api/randomOne')
+          .then(res => res.json())
+          .then((data) => {
+            setRandomFirst(data)
+          })
+
+        setChangeFirst(!changeFirst)
+      }
+      else if (changeSecond) {
+        await fetch('/api/randomOne')
+          .then(res => res.json())
+          .then((data) => {
+            setRandomSecond(data)
+          })
+
+        setChangeSecond(!changeSecond)
+      }
 
       setLoading(false)
     }
 
     genRandomAnimes()
-  }, [])
+  }, [changeFirst, changeSecond])
 
   if (loading)
     return <div className="h-screen w-48 flex mx-auto"><img src="/rings.svg" alt="rings" /></div>
@@ -67,10 +99,10 @@ const Home: NextPage = () => {
 
       <div className="font-mono text-xl text-center pt-8 text-green-100 sm:text-2xl">Which anime do you prefer<span className="italic text-2xl text-yellow-100 sm:text-4xl">?</span></div>
 
-      <div className="p-8 flex justify-between items-center max-w-2xl flex-col md:flex-row animate-fade-in">
-        {randomFirst === null ? '' : <AnimeCard anime={randomFirst} />}
+      <div className="p-8 flex justify-between items-center max-w-2xl flex-col sm:flex-row animate-fade-in">
+        {randomFirst === null ? '' : <AnimeCard anime={randomFirst} changeState={changeFirst} setChangeState={setChangeFirst}/>}
         <div className="p-8 italic text-xl">Vs</div>
-        {randomFirst === null ? '' : <AnimeCard anime={randomSecond} />}
+        {randomFirst === null ? '' : <AnimeCard anime={randomSecond} changeState={changeSecond} setChangeState={setChangeSecond}/>}
       </div>
 
       <div className="w-80 flex justify-around text-xl pb-4">
