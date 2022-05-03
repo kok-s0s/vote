@@ -3,8 +3,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import type Anime from '../globals/types'
-import { useLocalStorage } from '../hooks/useLocalStorage'
+import type Anime from '@globals/types'
+import { useLocalStorage } from '@hooks/useLocalStorage'
 
 interface Props {
   anime: Anime

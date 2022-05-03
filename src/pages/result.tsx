@@ -3,8 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import useSWR from 'swr'
-import fetcher from '../utils/fetcher'
-import type Anime from '../globals/types'
+import fetcher from '@utils/fetcher'
+import type Anime from '@globals/types'
 
 const AnimeList: React.FC<{ anime: Anime; idx: number }> = ({ anime, idx }) => {
   return (
