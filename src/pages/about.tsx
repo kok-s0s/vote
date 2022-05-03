@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import type { GetServerSideProps } from 'next'
+import Github from '@components/github'
 import Footer from '@components/footer'
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
@@ -24,6 +25,8 @@ const AboutPage = () => {
       <Head>
         <title>{t('about')}</title>
       </Head>
+
+      <Github />
 
       <h2 className="text-2xl p-4">{t('about')}</h2>
       <p className="max-w-xl">My name is kok-s0s</p>

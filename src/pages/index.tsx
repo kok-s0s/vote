@@ -8,6 +8,7 @@ import { useLocalStorage } from '@hooks/useLocalStorage'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import Github from '@components/github'
 import Footer from '@components/footer'
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
@@ -131,6 +132,8 @@ const Home: NextPage = () => {
       <Head>
         <title>{t('best-anime')}</title>
       </Head>
+
+      <Github />
 
       <div className="font-mono text-xl text-center pt-8 text-green-100 sm:text-2xl">{t('title')}<span className="italic text-2xl text-yellow-100 sm:text-4xl">?</span></div>
 
