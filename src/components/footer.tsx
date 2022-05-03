@@ -7,18 +7,18 @@ const Footer: React.FC = () => {
 
   return (
     <>
-         <Link href="/">
-          <a>{t('home')}</a>
-        </Link>
+      <Link href="/">
+        <a>{t('home')}</a>
+      </Link>
 
-        <Link href="/about">
-          <a>{t('about')}</a>
-        </Link>
+      <Link href="/about">
+        <a>{t('about')}</a>
+      </Link>
 
-        <Link href="/result">
-          <a>{t('result')}</a>
-        </Link>
-      </>
+      <Link href="/result">
+        <a>{t('result')}</a>
+      </Link>
+    </>
   )
 }
 
