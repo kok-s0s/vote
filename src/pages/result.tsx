@@ -6,10 +6,9 @@ import useSWR from 'swr'
 import fetcher from '../utils/fetcher'
 import type Anime from '../globals/types'
 
-const AnimeList: React.FC<{ anime: Anime }> = ({ anime }) => {
+const AnimeList: React.FC<{ anime: Anime; idx: number }> = ({ anime, idx }) => {
   return (
-    <div className="flex border-b p-2 items-center justify-between">
-
+    <div className="relative flex border-b p-2 items-center justify-between">
       <div className="relative w-24 h-32 sm:w-32 sm:h-40 flex-none">
         <Image
           src={anime.image}
@@ -27,6 +26,10 @@ const AnimeList: React.FC<{ anime: Anime }> = ({ anime }) => {
 
       <div className="flex-1 text-right text-base sm:text-xl mr-2">
         Score : {anime.count}
+      </div>
+
+      <div className="absolute top-0 right-0 z-20 flex items-center justify-center px-2 font-semibold text-white bg-gray-600 border border-gray-500 shadow-lg rounded-bl-md">
+        {idx}
       </div>
     </div>
   )
@@ -55,11 +58,13 @@ const Result: React.FC = () => {
         <Link href="/">back</Link>
       </div>
 
-      <div className="p-4 italic text-3xl">Result</div>
+      <div className="p-4 italic text-2xl">Result</div>
+
+      <div className="p-2 italic text-xl border-t">Just for fun, don&apos;t take it seriously</div>
 
       <div className="flex flex-col w-full max-w-4xl border">
-        {data.map((curAnime: Anime) => (
-          <AnimeList anime={curAnime} key={curAnime.id} />
+        {data.map((curAnime: Anime, index: number) => (
+          <AnimeList key={curAnime.id} anime={curAnime} idx={index + 1}/>
         ))}
       </div>
     </div>
