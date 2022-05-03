@@ -1,10 +1,23 @@
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import type Anime from '@globals/types'
 import { useLocalStorage } from '@hooks/useLocalStorage'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import Footer from '@components/footer'
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, ['common'])),
+      // Will be passed to the page component as props
+    },
+  }
+}
 
 interface Props {
   anime: Anime
@@ -43,6 +56,8 @@ const Home: NextPage = () => {
   const [randomSecond, setRandomSecond] = useLocalStorage('randomSecond', {} as Anime)
   const [chooseSecond, setChooseSecond] = useState(false)
   const [loading, setLoading] = useState(true)
+  const router = useRouter()
+  const { t } = useTranslation('common')
 
   useEffect(() => {
     setLoading(true)
@@ -114,23 +129,24 @@ const Home: NextPage = () => {
   return (
     <div className="h-screen w-screen flex flex-col justify-between items-center relative">
       <Head>
-        <title>Best-Anime</title>
+        <title>{t('best-anime')}</title>
       </Head>
 
-      <div className="font-mono text-xl text-center pt-8 text-green-100 sm:text-2xl">Which anime do you prefer<span className="italic text-2xl text-yellow-100 sm:text-4xl">?</span></div>
+      <div className="font-mono text-xl text-center pt-8 text-green-100 sm:text-2xl">{t('title')}<span className="italic text-2xl text-yellow-100 sm:text-4xl">?</span></div>
 
       <div className="p-8 flex justify-between items-center max-w-2xl flex-col sm:flex-row animate-fade-in">
         {randomFirst === null ? '' : <AnimeCard anime={randomFirst} chooseState={chooseFirst} setChooseState={setChooseFirst}/>}
-        <div className="p-8 italic text-xl">Vs</div>
+        <div className="p-8 italic text-xl">{t('vs')}</div>
         {randomFirst === null ? '' : <AnimeCard anime={randomSecond} chooseState={chooseSecond} setChooseState={setChooseSecond}/>}
       </div>
 
       <div className="w-80 flex justify-around text-xl pb-4">
-        <Link href="/result">
-          <a>Result</a>
-        </Link>
-        <Link href="/about">
-          <a>About</a>
+        <Footer/>
+
+        <Link href="/" locale={router.locale === 'en' ? 'zh' : 'en'}>
+          <button>
+            {t('change-locale')}
+          </button>
         </Link>
       </div>
     </div>

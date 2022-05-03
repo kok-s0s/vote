@@ -1,19 +1,42 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import type { GetServerSideProps } from 'next'
+import Footer from '@components/footer'
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, ['common'])),
+      // Will be passed to the page component as props
+    },
+  }
+}
 
 const AboutPage = () => {
+  const router = useRouter()
+  const { t } = useTranslation('common')
+
   return (
-    <div className="h-screen w-screen sm:w-5/6 mx-auto flex flex-col justify-center items-center relative">
+    <div className="h-screen w-screen flex flex-col justify-between items-center relative">
       <Head>
-        <title>About</title>
+        <title>{t('about')}</title>
       </Head>
 
-      <div className="absolute top-4 right-4 border rounded-2xl bg-zinc-200 text-slate-600 p-2">
-        <Link href="/">back</Link>
-      </div>
-
-      <h2 className="text-2xl p-4">About</h2>
+      <h2 className="text-2xl p-4">{t('about')}</h2>
       <p className="max-w-xl">My name is kok-s0s</p>
+
+      <div className="w-80 flex justify-around text-xl pb-4">
+        <Footer />
+
+        <Link href="/about" locale={router.locale === 'en' ? 'zh' : 'en'}>
+          <button>
+            {t('change-locale')}
+          </button>
+        </Link>
+      </div>
     </div>
   )
 }
