@@ -15,7 +15,6 @@ interface Props {
 const AnimeCard: React.FC<Props> = ({ anime, chooseState, setChooseState }) => {
   return (
     <div className="flex flex-col items-center">
-
       <div className="relative w-24 h-32 sm:w-48 sm:h-60 flex-none">
         <Image
           src={anime.image}
@@ -34,7 +33,6 @@ const AnimeCard: React.FC<Props> = ({ anime, chooseState, setChooseState }) => {
       <button className="border rounded-lg m-2 p-1 bg-gray-100 text-gray-800" onClick={() => {
         setChooseState(!chooseState)
       }}>Choose</button>
-
     </div>
   )
 }
