@@ -80,6 +80,36 @@ const Home: NextPage = () => {
   const [animesLen, setAnimesLen] = useLocalStorage('animeLen', 0)
   const [bestAnime, setBestAnime] = useLocalStorage('bestAnime', {} as Anime)
   const [over, setOver] = useLocalStorage('over', false)
+  const getNewAnime = async (pendingUpgrade: Anime, changeless: Anime) => {
+    setBestAnime(changeless)
+
+    const body = { pendingUpgrade, changeless }
+    let flag = false
+
+    while (true) {
+      if (animeArr.length === animesLen) {
+        setAnimeArr((prev: Array<string>) => [...prev, 'over'])
+        break
+      }
+
+      await fetch('/api/randomOne', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (!animeArr.includes(data.id)) {
+            pendingUpgrade === randomFirst ? setRandomFirst(data) : setRandomSecond(data)
+            setAnimeArr((prev: Array<string>) => [...prev, data.id])
+            flag = true
+          }
+        })
+
+      if (flag)
+        break
+    }
+  }
 
   useEffect(() => {
     const getAnimesLen = async () => {
@@ -124,73 +154,15 @@ const Home: NextPage = () => {
             setAnimeArr((prev: Array<string>) => [...prev, data.id])
           })
 
-        setOver(!over)
+        setOver(false)
       }
       else if (chooseFirst) {
-        setBestAnime(randomFirst)
-        const pendingUpgrade = randomSecond
-        const changeless = randomFirst
-        const body = { pendingUpgrade, changeless }
-
-        while (true) {
-          if (animeArr.length === animesLen) {
-            setAnimeArr((prev: Array<string>) => [...prev, 'over'])
-            break
-          }
-
-          let flag = false
-
-          await fetch('/api/randomOne', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-          })
-            .then(res => res.json())
-            .then((data) => {
-              if (!animeArr.includes(data.id)) {
-                setRandomSecond(data)
-                setAnimeArr((prev: Array<string>) => [...prev, data.id])
-                flag = true
-              }
-            })
-
-          if (flag)
-            break
-        }
+        await getNewAnime(randomSecond, randomFirst)
 
         setChooseFirst(!chooseFirst)
       }
       else if (chooseSecond) {
-        setBestAnime(randomSecond)
-        const pendingUpgrade = randomFirst
-        const changeless = randomSecond
-        const body = { pendingUpgrade, changeless }
-
-        while (true) {
-          if (animeArr.length === animesLen) {
-            setAnimeArr((prev: Array<string>) => [...prev, 'over'])
-            break
-          }
-
-          let flag = false
-
-          await fetch('/api/randomOne', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
-          })
-            .then(res => res.json())
-            .then((data) => {
-              if (!animeArr.includes(data.id)) {
-                setRandomFirst(data)
-                setAnimeArr((prev: Array<string>) => [...prev, data.id])
-                flag = true
-              }
-            })
-
-          if (flag)
-            break
-        }
+        await getNewAnime(randomFirst, randomSecond)
 
         setChooseSecond(!chooseSecond)
       }
@@ -241,7 +213,7 @@ const Home: NextPage = () => {
             <BestAnime anime={bestAnime} />
             <div className="cursor-pointer" onClick={() => {
               setAnimeArr([])
-              setOver(!over)
+              setOver(true)
             }}>Re-select the best anime in your heart</div>
           </div>
 
