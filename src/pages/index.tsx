@@ -23,13 +23,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   }
 }
 
-interface Props {
-  anime: Anime
-  chooseState: Boolean
-  setChooseState: Function
-}
-
-const AnimeCard: React.FC<Props> = ({ anime, chooseState, setChooseState }) => {
+const AnimeCard: React.FC<{ anime: Anime; chooseState: Boolean; setChooseState: Function }> = ({ anime, chooseState, setChooseState }) => {
   const { t } = useTranslation('common')
 
   return (
@@ -85,6 +79,7 @@ const Home: NextPage = () => {
   const [animeArr, setAnimeArr] = useLocalStorage('animeArr', [])
   const [animesLen, setAnimesLen] = useLocalStorage('animeLen', 0)
   const [bestAnime, setBestAnime] = useLocalStorage('bestAnime', {} as Anime)
+  const [over, setOver] = useLocalStorage('over', false)
 
   useEffect(() => {
     const getAnimesLen = async () => {
@@ -108,7 +103,7 @@ const Home: NextPage = () => {
     setLoading(true)
 
     const genRandomAnimes = async () => {
-      if (Object.keys(randomFirst).length === 0 && Object.keys(randomSecond).length === 0) {
+      if ((Object.keys(randomFirst).length === 0 && Object.keys(randomSecond).length === 0) || over) {
         const first = await fetch('/api/randomOne')
           .then(res => res.json())
           .then((data) => {
@@ -128,6 +123,8 @@ const Home: NextPage = () => {
             setRandomSecond(data)
             setAnimeArr((prev: Array<string>) => [...prev, data.id])
           })
+
+        setOver(!over)
       }
       else if (chooseFirst) {
         setBestAnime(randomFirst)
@@ -202,7 +199,7 @@ const Home: NextPage = () => {
     }
 
     genRandomAnimes()
-  }, [chooseFirst, chooseSecond])
+  }, [chooseFirst, chooseSecond, over])
 
   if (loading)
     return <div className="h-screen w-48 flex mx-auto"><img src="/rings.svg" alt="rings" /></div>
@@ -240,13 +237,20 @@ const Home: NextPage = () => {
 
       {animeArr.length === animesLen + 1
         ? (
-          <BestAnime anime={bestAnime} />
+          <div>
+            <BestAnime anime={bestAnime} />
+            <div className="cursor-pointer" onClick={() => {
+              setAnimeArr([])
+              setOver(!over)
+            }}>Re-select the best anime in your heart</div>
+          </div>
+
           )
         : (
           <div className="p-8 flex justify-between items-center max-w-2xl flex-col sm:flex-row animate-fade-in">
-            {randomFirst === null ? '' : <AnimeCard anime={randomFirst} chooseState={chooseFirst} setChooseState={setChooseFirst} />}
+            {randomFirst.image === null ? '' : <AnimeCard anime={randomFirst} chooseState={chooseFirst} setChooseState={setChooseFirst} />}
             <div className="p-8 italic text-xl">{t('vs')}</div>
-            {randomFirst === null ? '' : <AnimeCard anime={randomSecond} chooseState={chooseSecond} setChooseState={setChooseSecond} />}
+            {randomFirst.image === null ? '' : <AnimeCard anime={randomSecond} chooseState={chooseSecond} setChooseState={setChooseSecond} />}
           </div>
           )}
 
