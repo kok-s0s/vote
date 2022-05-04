@@ -184,7 +184,7 @@ const Home: NextPage = () => {
 
       <Github />
 
-      <div className="flex items-center p-4 sm:mt-4">
+      <div className="flex items-center p-4 mt-2 sm:mt-4">
         <div
           className="cursor-pointer hidden sm:block"
           onClick={() => {
@@ -211,10 +211,10 @@ const Home: NextPage = () => {
         ? (
           <div>
             <BestAnime anime={bestAnime} />
-            <div className="cursor-pointer" onClick={() => {
+            <div className="cursor-pointer border m-6 p-1.5 sm:p-3 rounded-xl shadow-lg border-2 shadow-gray-900 border-gray-600 bg-gray-600 text-gray-100 dark:bg-gray-100 dark:text-gray-800 dark:shadow-sky-300 dark:border-gray-100" onClick={() => {
               setAnimeArr([])
               setOver(true)
-            }}>Re-select the best anime in your heart</div>
+            }}>{t('play-again')}</div>
           </div>
 
           )
