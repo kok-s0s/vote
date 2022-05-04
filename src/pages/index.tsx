@@ -30,6 +30,8 @@ interface Props {
 }
 
 const AnimeCard: React.FC<Props> = ({ anime, chooseState, setChooseState }) => {
+  const { t } = useTranslation('common')
+
   return (
     <div className="flex flex-col items-center">
       <div className="relative w-24 h-32 sm:w-48 sm:h-60 flex-none">
@@ -47,9 +49,9 @@ const AnimeCard: React.FC<Props> = ({ anime, chooseState, setChooseState }) => {
         {anime.name}
       </div>
 
-      <button className="border rounded-md m-2 p-1 bg-gray-600 text-gray-100 dark:bg-gray-100 dark:text-gray-800" onClick={() => {
+      <button className="w-24 border rounded-md m-2 p-2 bg-gray-600 text-gray-100 dark:bg-gray-100 dark:text-gray-800" onClick={() => {
         setChooseState(!chooseState)
-      }}>Choose</button>
+      }}>{t('choose')}</button>
     </div>
   )
 }
@@ -213,7 +215,7 @@ const Home: NextPage = () => {
 
       <Github />
 
-      <div className="flex items-center p-4">
+      <div className="flex items-center p-4 sm:mt-4">
         <div
           className="cursor-pointer hidden sm:block"
           onClick={() => {
@@ -222,7 +224,18 @@ const Home: NextPage = () => {
         >
           {theme === 'light' ? <MdDarkMode className="text-3xl text-gray-800" /> : <GiAztecCalendarSun className="text-3xl text-yellow-500" />}
         </div>
-        <div className="font-mono text-xl text-center ml-4 dark:text-green-100 sm:text-2xl">{t('title')}<span className="italic text-2xl dark:text-yellow-100 sm:text-4xl">?</span></div>
+
+        <div className="font-mono text-xl text-center ml-4 dark:text-green-100 sm:text-2xl">
+          {animeArr.length === animesLen + 1
+            ? (
+              <>{t('your-choice')}</>
+              )
+            : (
+              <>
+                {t('title')}<span className="italic text-2xl dark:text-yellow-100 sm:text-4xl">?</span>
+              </>
+              )}
+        </div>
       </div>
 
       {animeArr.length === animesLen + 1

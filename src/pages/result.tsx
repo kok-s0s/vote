@@ -70,7 +70,7 @@ const Result: React.FC = () => {
         <title>{t('result')}</title>
       </Head>
 
-      <div className="absolute top-4 right-4">
+      <div className="absolute top-4 right-4 cursor-pointer">
         <Link href="/">
           <TiArrowBack className="text-3xl"/>
         </Link>
