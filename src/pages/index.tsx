@@ -10,6 +10,9 @@ import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Github from '@components/github'
 import Footer from '@components/footer'
+import { useTheme } from 'next-themes'
+import { GiAztecCalendarSun } from 'react-icons/gi'
+import { MdDarkMode } from 'react-icons/md'
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
@@ -40,11 +43,11 @@ const AnimeCard: React.FC<Props> = ({ anime, chooseState, setChooseState }) => {
         />
       </div>
 
-      <div className="flex-initial w-32 text-base sm:text-xl text-center border-b mt-2">
+      <div className="flex-initial w-32 text-base sm:text-xl text-center border-b-2 mt-2 border-cyan-900 dark:border-gray-50">
         {anime.name}
       </div>
 
-      <button className="border rounded-lg m-2 p-1 bg-gray-100 text-gray-800" onClick={() => {
+      <button className="border rounded-md m-2 p-1 bg-gray-600 text-gray-100 dark:bg-gray-100 dark:text-gray-800" onClick={() => {
         setChooseState(!chooseState)
       }}>Choose</button>
     </div>
@@ -59,6 +62,7 @@ const Home: NextPage = () => {
   const [loading, setLoading] = useState(true)
   const router = useRouter()
   const { t } = useTranslation('common')
+  const { theme, setTheme } = useTheme()
 
   useEffect(() => {
     setLoading(true)
@@ -135,7 +139,17 @@ const Home: NextPage = () => {
 
       <Github />
 
-      <div className="font-mono text-xl text-center pt-8 text-green-100 sm:text-2xl">{t('title')}<span className="italic text-2xl text-yellow-100 sm:text-4xl">?</span></div>
+      <div className="flex items-center p-4">
+        <div
+          className="cursor-pointer hidden sm:block"
+          onClick={() => {
+            setTheme(theme === 'light' ? 'dark' : 'light')
+          }}
+        >
+          {theme === 'light' ? <MdDarkMode className="text-3xl text-gray-800" /> : <GiAztecCalendarSun className="text-3xl text-yellow-500" />}
+        </div>
+        <div className="font-mono text-xl text-center ml-4 dark:text-green-100 sm:text-2xl">{t('title')}<span className="italic text-2xl dark:text-yellow-100 sm:text-4xl">?</span></div>
+      </div>
 
       <div className="p-8 flex justify-between items-center max-w-2xl flex-col sm:flex-row animate-fade-in">
         {randomFirst === null ? '' : <AnimeCard anime={randomFirst} chooseState={chooseFirst} setChooseState={setChooseFirst}/>}

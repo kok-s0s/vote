@@ -1809,6 +1809,11 @@ next-plausible@^3.1.9:
   resolved "https://registry.npmjs.org/next-plausible/-/next-plausible-3.1.9.tgz#4795df2e83a6ca14495d2fa0d31a92649c42425f"
   integrity sha512-6Ro6lVnuXAtqbbBQfuKuu0cpZHWWvJWbOE1G+Rx6i42T6lLYtbQzbu09Cutv3vc/wD/4ySHzJkuTnxsqnlArGA==
 
+next-themes@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/next-themes/-/next-themes-0.1.1.tgz#122113a458bf1d1be5ffed66778ab924c106f82a"
+  integrity sha512-Iqxt6rhS/KfK/iHJ0tfFjTcdLEAI0AgwFuAFrMwLOPK5e+MI3I+fzyvBoS+VaOS+NldUiazurhgwYhrfV0VXsQ==
+
 next@12.1.5:
   version "12.1.5"
   resolved "https://registry.npmjs.org/next/-/next-12.1.5.tgz#7a07687579ddce61ee519493e1c178d83abac063"
