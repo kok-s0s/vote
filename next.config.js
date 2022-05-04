@@ -1,8 +1,11 @@
 const path = require('path')
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
 const { withPlausibleProxy } = require('next-plausible')
 const { i18n } = require('./next-i18next.config')
 
-module.exports = withPlausibleProxy()({
+module.exports = withBundleAnalyzer(withPlausibleProxy()({
   i18n,
   images: {
     domains: ['raw.githubusercontent.com'],
@@ -15,4 +18,4 @@ module.exports = withPlausibleProxy()({
     }
     return config
   },
-})
+}))
