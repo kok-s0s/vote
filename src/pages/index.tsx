@@ -43,7 +43,7 @@ const AnimeCard: React.FC<{ anime: Anime; chooseState: boolean; setChooseState: 
         {anime.name}
       </div>
 
-      <button className="w-24 border rounded-md m-2 p-2 bg-gray-600 text-gray-100 dark:bg-gray-100 dark:text-gray-800" onClick={() => {
+      <button type="button" className="w-24 border rounded-md m-2 p-2 bg-gray-600 text-gray-100 dark:bg-gray-100 dark:text-gray-800" onClick={() => {
         setChooseState(!chooseState)
       }}>{t('choose')}</button>
     </div>
@@ -126,7 +126,7 @@ const Home: NextPage = () => {
         })
     }
 
-    getAnimesLen().catch(error => {})
+    getAnimesLen().catch((_error) => {})
   }, [])
 
   useEffect(() => {
@@ -170,7 +170,7 @@ const Home: NextPage = () => {
       setLoading(false)
     }
 
-    genRandomAnimes().catch(error => {})
+    genRandomAnimes().catch((_error) => {})
   }, [chooseFirst, chooseSecond, over])
 
   if (loading)
@@ -230,9 +230,7 @@ const Home: NextPage = () => {
         <Footer />
 
         <Link href="/" locale={router.locale === 'en' ? 'zh' : 'en'}>
-          <a>
-            {t('change-locale')}
-          </a>
+          <a>{t('change-locale')}</a>
         </Link>
       </div>
     </div>

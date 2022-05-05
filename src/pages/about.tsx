@@ -50,9 +50,7 @@ const AboutPage = () => {
         <Footer />
 
         <Link href="/about" locale={router.locale === 'en' ? 'zh' : 'en'}>
-          <button>
-            {t('change-locale')}
-          </button>
+          <a>{t('change-locale')}</a>
         </Link>
       </div>
     </div>

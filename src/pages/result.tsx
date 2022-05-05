@@ -71,9 +71,7 @@ const Result: React.FC = () => {
       </Head>
 
       <div className="absolute top-4 right-4 cursor-pointer">
-        <Link href="/" passHref>
-          <TiArrowBack className="text-3xl"/>
-        </Link>
+        <Link href="/" passHref><TiArrowBack className="text-3xl"/></Link>
       </div>
 
       <div className="p-4 italic text-2xl">{t('result')}</div>
