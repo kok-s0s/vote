@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   }
 }
 
-const AnimeCard: React.FC<{ anime: Anime; chooseState: Boolean; setChooseState: Function }> = ({ anime, chooseState, setChooseState }) => {
+const AnimeCard: React.FC<{ anime: Anime; chooseState: boolean; setChooseState: (state: boolean) => void }> = ({ anime, chooseState, setChooseState }) => {
   const { t } = useTranslation('common')
 
   return (
@@ -126,7 +126,7 @@ const Home: NextPage = () => {
         })
     }
 
-    getAnimesLen()
+    getAnimesLen().catch(error => console.error(error))
   }, [])
 
   useEffect(() => {
@@ -170,7 +170,7 @@ const Home: NextPage = () => {
       setLoading(false)
     }
 
-    genRandomAnimes()
+    genRandomAnimes().catch(error => console.error(error))
   }, [chooseFirst, chooseSecond, over])
 
   if (loading)
@@ -230,9 +230,9 @@ const Home: NextPage = () => {
         <Footer />
 
         <Link href="/" locale={router.locale === 'en' ? 'zh' : 'en'}>
-          <button>
+          <a>
             {t('change-locale')}
-          </button>
+          </a>
         </Link>
       </div>
     </div>
