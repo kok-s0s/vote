@@ -126,7 +126,7 @@ const Home: NextPage = () => {
         })
     }
 
-    getAnimesLen().catch(error => console.error(error))
+    getAnimesLen().catch(error => {})
   }, [])
 
   useEffect(() => {
@@ -170,7 +170,7 @@ const Home: NextPage = () => {
       setLoading(false)
     }
 
-    genRandomAnimes().catch(error => console.error(error))
+    genRandomAnimes().catch(error => {})
   }, [chooseFirst, chooseSecond, over])
 
   if (loading)
