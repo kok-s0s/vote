@@ -77,63 +77,36 @@ const Home: NextPage = () => {
   const { t } = useTranslation('common')
   const { theme, setTheme } = useTheme()
   const [animeArr, setAnimeArr] = useLocalStorage('animeArr', [])
-  const [animesLen, setAnimesLen] = useLocalStorage('animeLen', 0)
   const [bestAnime, setBestAnime] = useLocalStorage('bestAnime', {} as Anime)
   const [over, setOver] = useLocalStorage('over', false)
+  const [again, setAgain] = useLocalStorage('again', false)
   const getNewAnime = async (pendingUpgrade: Anime, changeless: Anime) => {
     setBestAnime(changeless)
 
-    const body = { pendingUpgrade, changeless }
-    let flag = false
+    const body = { pendingUpgrade, changeless, animeArr }
 
-    while (true) {
-      if (animeArr.length === animesLen) {
-        setAnimeArr((prev: Array<string>) => [...prev, 'over'])
-        break
-      }
+    await fetch('/api/randomOne', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+      .then(res => res.json())
+      .then((data) => {
+        if (data.over) {
+          setOver(true)
+          return
+        }
 
-      await fetch('/api/randomOne', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+        pendingUpgrade === randomFirst ? setRandomFirst(data) : setRandomSecond(data)
+        setAnimeArr((prev: Array<string>) => [...prev, data.id])
       })
-        .then(res => res.json())
-        .then((data) => {
-          if (!animeArr.includes(data.id)) {
-            pendingUpgrade === randomFirst ? setRandomFirst(data) : setRandomSecond(data)
-            setAnimeArr((prev: Array<string>) => [...prev, data.id])
-            flag = true
-          }
-        })
-
-      if (flag)
-        break
-    }
   }
-
-  useEffect(() => {
-    const getAnimesLen = async () => {
-      const body = 'len'
-
-      await fetch('/api/animes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      })
-        .then(res => res.json())
-        .then((data) => {
-          setAnimesLen(data)
-        })
-    }
-
-    getAnimesLen().catch((_error) => {})
-  }, [])
 
   useEffect(() => {
     setLoading(true)
 
     const genRandomAnimes = async () => {
-      if ((Object.keys(randomFirst).length === 0 && Object.keys(randomSecond).length === 0) || over) {
+      if ((Object.keys(randomFirst).length === 0 && Object.keys(randomSecond).length === 0) || again) {
         const first = await fetch('/api/randomOne')
           .then(res => res.json())
           .then((data) => {
@@ -154,7 +127,7 @@ const Home: NextPage = () => {
             setAnimeArr((prev: Array<string>) => [...prev, data.id])
           })
 
-        setOver(false)
+        setAgain(false)
       }
       else if (chooseFirst) {
         await getNewAnime(randomSecond, randomFirst)
@@ -171,7 +144,7 @@ const Home: NextPage = () => {
     }
 
     genRandomAnimes().catch((_error) => {})
-  }, [chooseFirst, chooseSecond, over])
+  }, [chooseFirst, chooseSecond, again])
 
   if (loading)
     return <div className="h-screen w-48 flex mx-auto"><img src="/rings.svg" alt="rings" /></div>
@@ -195,7 +168,7 @@ const Home: NextPage = () => {
         </div>
 
         <div className="font-mono text-xl text-center ml-4 dark:text-green-100 sm:text-2xl">
-          {animeArr.length === animesLen + 1
+          {over
             ? (
               <>{t('your-choice')}</>
               )
@@ -207,13 +180,14 @@ const Home: NextPage = () => {
         </div>
       </div>
 
-      {animeArr.length === animesLen + 1
+      {over
         ? (
           <div>
             <BestAnime anime={bestAnime} />
             <div className="cursor-pointer border m-6 p-1.5 sm:p-3 rounded-xl shadow-lg border-2 shadow-gray-900 border-gray-600 bg-gray-600 text-gray-100 dark:bg-gray-100 dark:text-gray-800 dark:shadow-sky-300 dark:border-gray-100" onClick={() => {
               setAnimeArr([])
-              setOver(true)
+              setAgain(true)
+              setOver(false)
             }}>{t('play-again')}</div>
           </div>
 

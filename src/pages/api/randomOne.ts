@@ -6,6 +6,7 @@ const prisma = new PrismaClient()
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const animes = await prisma.anime.findMany()
   let rand = Math.floor(Math.random() * animes.length)
+  let flag = true
 
   if (Object.keys(req.body).length === 1) {
     const { first } = req.body
@@ -13,8 +14,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     while (first.id === animes.slice(rand, rand + 1)[0].id)
       rand = Math.floor(Math.random() * animes.length)
   }
-  else if (Object.keys(req.body).length === 2) {
-    const { pendingUpgrade, changeless } = req.body
+  else if (Object.keys(req.body).length === 3) {
+    const { pendingUpgrade, changeless, animeArr } = req.body
 
     const curAnime = await prisma.anime.findUnique({
       where: {
@@ -31,9 +32,12 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       },
     })
 
-    while (pendingUpgrade.id === animes.slice(rand, rand + 1)[0].id || changeless.id === animes.slice(rand, rand + 1)[0].id)
-      rand = Math.floor(Math.random() * animes.length)
+    if (animeArr.length === animes.length) { flag = false }
+    else {
+      while (pendingUpgrade.id === animes.slice(rand, rand + 1)[0].id || changeless.id === animes.slice(rand, rand + 1)[0].id || animeArr.includes(animes.slice(rand, rand + 1)[0].id))
+        rand = Math.floor(Math.random() * animes.length)
+    }
   }
 
-  return res.json(animes.slice(rand, rand + 1)[0])
+  return flag ? res.json(animes.slice(rand, rand + 1)[0]) : res.json({ over: true })
 }
