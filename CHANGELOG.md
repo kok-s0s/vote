@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/kok-s0s/vote/compare/v0.1.1...v0.1.2) (2022-05-07)
+
+
+### Bug Fixes
+
+* solve the problem of multiple loop calls to the interface ([cdaaa11](https://github.com/kok-s0s/vote/commit/cdaaa1131c2de0dcf77c62f310c4256a6cdf0e0a))
+
 ### 0.1.1 (2022-05-06)
 
 
