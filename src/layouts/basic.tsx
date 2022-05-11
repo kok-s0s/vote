@@ -11,7 +11,7 @@ const Basic: React.FC<BasicProps> = (props) => {
   return (
     <div className="h-screen w-screen flex flex-col justify-between items-center relative">
       <Github />
-      <>{props.children}</>
+      {props.children}
       <Footer href={props.href}/>
     </div>
   )
