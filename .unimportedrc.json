@@ -1,0 +1,12 @@
+{
+  "ignoreUnresolved": [],
+  "ignoreUnused": [
+    "@next/bundle-analyzer",
+    "next",
+    "next-plausible",
+    "react",
+    "react-dom",
+    "react-syntax-highlighter"
+  ],
+  "ignoreUnimported": []
+}
