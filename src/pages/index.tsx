@@ -1,18 +1,16 @@
+import Basic from '@layouts/basic'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import type Anime from '@globals/types'
 import useLocalStorage from '@hooks/useLocalStorage'
-import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import Github from '@components/github'
-import Footer from '@components/footer'
 import { useTheme } from 'next-themes'
 import { GiAztecCalendarSun } from 'react-icons/gi'
 import { MdDarkMode } from 'react-icons/md'
+import AnimeCard from '@components/animeCard'
+import BestAnime from '@components/bestAnime'
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
@@ -23,57 +21,12 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   }
 }
 
-const AnimeCard: React.FC<{ anime: Anime; chooseState: boolean; setChooseState: (state: boolean) => void }> = ({ anime, chooseState, setChooseState }) => {
-  const { t } = useTranslation('common')
-
-  return (
-    <div className="flex flex-col items-center">
-      <div className="relative w-24 h-32 sm:w-48 sm:h-60 flex-none">
-        <Image
-          src={anime.image}
-          alt={anime.name}
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-          priority
-        />
-      </div>
-
-      <div className="flex-initial w-48 text-base sm:text-xl text-center border-b-2 mt-2 border-cyan-900 dark:border-gray-50">
-        {anime.name}
-      </div>
-
-      <button type="button" className="w-24 border rounded-md m-2 p-2 bg-gray-600 text-gray-100 dark:bg-gray-100 dark:text-gray-800" onClick={() => {
-        setChooseState(!chooseState)
-      }}>{t('choose')}</button>
-    </div>
-  )
-}
-
-const BestAnime: React.FC<{ anime: Anime }> = ({ anime }) => {
-  return (
-    <div className="flex flex-col items-center">
-      <div className="relative w-48 h-60 sm:w-64 sm:h-80 flex-none">
-        <Image
-          src={anime.image}
-          alt={anime.name}
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-          priority
-        />
-      </div>
-    </div>
-  )
-}
-
 const Home: NextPage = () => {
   const [randomFirst, setRandomFirst] = useLocalStorage('randomFirst', {} as Anime)
   const [chooseFirst, setChooseFirst] = useState(false)
   const [randomSecond, setRandomSecond] = useLocalStorage('randomSecond', {} as Anime)
   const [chooseSecond, setChooseSecond] = useState(false)
   const [loading, setLoading] = useState(true)
-  const router = useRouter()
   const { t } = useTranslation('common')
   const { theme, setTheme } = useTheme()
   const [animeArr, setAnimeArr] = useLocalStorage('animeArr', [])
@@ -150,12 +103,10 @@ const Home: NextPage = () => {
     return <div className="h-screen w-48 flex mx-auto"><img src="/rings.svg" alt="rings" /></div>
 
   return (
-    <div className="h-screen w-screen flex flex-col justify-between items-center relative">
+    <Basic href="/">
       <Head>
         <title>{t('best-anime')}</title>
       </Head>
-
-      <Github />
 
       <div className="flex items-center p-4 mt-2 sm:mt-4">
         <div
@@ -190,7 +141,6 @@ const Home: NextPage = () => {
               setOver(false)
             }}>{t('play-again')}</div>
           </div>
-
           )
         : (
           <div className="p-8 flex justify-between items-center max-w-2xl flex-col sm:flex-row animate-fade-in">
@@ -199,15 +149,7 @@ const Home: NextPage = () => {
             {randomFirst.image === null ? '' : <AnimeCard anime={randomSecond} chooseState={chooseSecond} setChooseState={setChooseSecond} />}
           </div>
           )}
-
-      <div className="w-80 flex justify-around text-xl pb-4">
-        <Footer />
-
-        <Link href="/" locale={router.locale === 'en' ? 'zh' : router.locale === 'zh' ? 'jp' : router.locale === 'jp' ? 'en' : '' }>
-          <a>{t('change-locale')}</a>
-        </Link>
-      </div>
-    </div>
+    </Basic>
   )
 }
 
