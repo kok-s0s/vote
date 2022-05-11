@@ -1,5 +1,5 @@
 {
-  "change-locale": "Change locale",
+  "change-locale": "Switch language",
   "title": "Which anime do you prefer",
   "vs": "Vs",
   "home": "Vote",
@@ -10,5 +10,6 @@
   "score": "Score",
   "choose": "Choose",
   "your-choice": "This may be the best anime in your heart!",
-  "play-again": "Re-select the best anime in your heart"
+  "play-again": "Re-select the best anime in your heart",
+  "language": "English"
 }

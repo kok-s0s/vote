@@ -39,7 +39,7 @@ const AnimeCard: React.FC<{ anime: Anime; chooseState: boolean; setChooseState: 
         />
       </div>
 
-      <div className="flex-initial w-32 text-base sm:text-xl text-center border-b-2 mt-2 border-cyan-900 dark:border-gray-50">
+      <div className="flex-initial w-48 text-base sm:text-xl text-center border-b-2 mt-2 border-cyan-900 dark:border-gray-50">
         {anime.name}
       </div>
 
@@ -203,7 +203,7 @@ const Home: NextPage = () => {
       <div className="w-80 flex justify-around text-xl pb-4">
         <Footer />
 
-        <Link href="/" locale={router.locale === 'en' ? 'zh' : 'en'}>
+        <Link href="/" locale={router.locale === 'en' ? 'zh' : router.locale === 'zh' ? 'jp' : router.locale === 'jp' ? 'en' : '' }>
           <a>{t('change-locale')}</a>
         </Link>
       </div>

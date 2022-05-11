@@ -49,7 +49,7 @@ const AboutPage = () => {
       <div className="w-80 flex justify-around text-xl pb-4">
         <Footer />
 
-        <Link href="/about" locale={router.locale === 'en' ? 'zh' : 'en'}>
+        <Link href="/about" locale={router.locale === 'en' ? 'zh' : router.locale === 'zh' ? 'jp' : router.locale === 'jp' ? 'en' : '' }>
           <a>{t('change-locale')}</a>
         </Link>
       </div>
