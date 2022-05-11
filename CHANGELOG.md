@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/kok-s0s/vote/compare/v0.1.2...v0.1.3) (2022-05-11)
+
+
+### Features
+
+* add jp-i18n ([e08ab23](https://github.com/kok-s0s/vote/commit/e08ab23ebf1a3f4ad758d5c63327eecc1866eb9c))
+* add prop-types package ([c9a440b](https://github.com/kok-s0s/vote/commit/c9a440b2b2bfc3fdb112314359bfa8c0a573b351))
+* ignore unimport ([5d5ea21](https://github.com/kok-s0s/vote/commit/5d5ea217297f754027620a05f350575e4caa853b))
+
+
+### Bug Fixes
+
+* delete useless fragments ([76584d6](https://github.com/kok-s0s/vote/commit/76584d6249da1853bcdb63c192b849ef62dd67b2))
+
 ### [0.1.2](https://github.com/kok-s0s/vote/compare/v0.1.1...v0.1.2) (2022-05-07)
 
 
