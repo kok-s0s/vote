@@ -1,11 +1,15 @@
 const path = require('path')
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-})
 const { withPlausibleProxy } = require('next-plausible')
+const withPWA = require('next-pwa')
 const { i18n } = require('./next-i18next.config')
 
-module.exports = withBundleAnalyzer(withPlausibleProxy()({
+module.exports = withPWA(withPlausibleProxy()({
+  pwa: {
+    dest: 'public',
+    register: true,
+    skipWaiting: true,
+    disable: process.env.NODE_ENV === 'development',
+  },
   i18n,
   images: {
     domains: ['raw.githubusercontent.com'],

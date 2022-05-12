@@ -6,10 +6,11 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head />
-        <body className="dark:text-gray-100 dark:bg-gray-800 text-gray-800 bg-gray-200">
-          <Main />
-          <NextScript />
-        </body>
+          <link rel="manifest" href="/manifest.json" />
+          <body className="dark:text-gray-100 dark:bg-gray-800 text-gray-800 bg-gray-200">
+            <Main />
+            <NextScript />
+          </body>
       </Html>
     )
   }
