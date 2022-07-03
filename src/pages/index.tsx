@@ -122,12 +122,12 @@ const Home: NextPage = () => {
           {over
             ? (
               <>{t('your-choice')}</>
-            )
+              )
             : (
               <>
                 {t('title')}<span className="italic text-2xl dark:text-yellow-100 sm:text-4xl">?</span>
               </>
-            )}
+              )}
         </div>
       </div>
 
@@ -141,14 +141,14 @@ const Home: NextPage = () => {
               setOver(false)
             }}>{t('play-again')}</div>
           </div>
-        )
+          )
         : (
           <div className="p-8 flex justify-between items-center max-w-2xl flex-col sm:flex-row animate-fade-in">
             {randomFirst.image === null ? '' : <AnimeCard anime={randomFirst} chooseState={chooseFirst} setChooseState={setChooseFirst} />}
             <div className="p-8 italic text-xl">{t('vs')}</div>
             {randomFirst.image === null ? '' : <AnimeCard anime={randomSecond} chooseState={chooseSecond} setChooseState={setChooseSecond} />}
           </div>
-        )}
+          )}
     </Basic>
   )
 }
