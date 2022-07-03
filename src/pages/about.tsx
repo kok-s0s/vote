@@ -25,14 +25,14 @@ const AboutPage = () => {
       <h2 className="font-mono text-3xl sm:mt-8 p-4 border-double sm:border-b-8 border-gray-600 dark:border-gray-100">{t('about')}</h2>
 
       <div className="max-w-xl flex flex-col items-stretch">
-        <div className="font-mono border m-6 p-1.5 sm:p-3 rounded-xl shadow-md border-2 shadow-gray-900 border-gray-600 bg-gray-600 text-gray-100 dark:bg-gray-100 dark:text-gray-800 dark:shadow-sky-300 dark:border-gray-100">
+        <div className="font-mono m-6 p-1.5 sm:p-3 rounded-xl shadow-md border-2 shadow-gray-900 border-gray-600 bg-gray-600 text-gray-100 dark:bg-gray-100 dark:text-gray-800 dark:shadow-sky-300 dark:border-gray-100">
           <div className="m-2 text-xl">{t('about-title')}</div>
           <div>- {t('name')}</div>
           <div>- {t('job')}</div>
           <div>- {t('feature')}</div>
         </div>
 
-        <div className="tracking-wide border m-6 p-1.5 sm:p-3 rounded-xl shadow-md border-2 shadow-gray-900 border-gray-600 bg-gray-600 text-gray-100 dark:bg-gray-100 dark:text-gray-800 dark:shadow-sky-300 dark:border-gray-100">
+        <div className="tracking-wide m-6 p-1.5 sm:p-3 rounded-xl shadow-md border-2 shadow-gray-900 border-gray-600 bg-gray-600 text-gray-100 dark:bg-gray-100 dark:text-gray-800 dark:shadow-sky-300 dark:border-gray-100">
           <div className="m-2 text-xl">{t('why-title')}</div>
           <div className="my-2 indent-4">{t('why-1')}</div>
           <div className="my-2 indent-4">{t('why-2')}</div>

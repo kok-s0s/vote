@@ -26,7 +26,7 @@ const Result: React.FC = () => {
   if (error) {
     return (
       <div className="h-screen w-48 flex flex-col justify-center mx-auto">
-        <img src="/github.png" alt="github"/>
+        <img src="/github.png" alt="github" />
         <span className="text-center italic text-3xl">Try Again!</span>
       </div>
     )
@@ -41,7 +41,7 @@ const Result: React.FC = () => {
       </Head>
 
       <div className="absolute top-4 right-4 cursor-pointer">
-        <Link href="/" passHref><TiArrowBack className="text-3xl"/></Link>
+        <Link href="/" passHref><TiArrowBack className="text-3xl" /></Link>
       </div>
 
       <div className="p-4 italic text-2xl">{t('result')}</div>
@@ -50,7 +50,7 @@ const Result: React.FC = () => {
 
       <div className="flex flex-col w-full max-w-4xl border border-cyan-900 dark:border-gray-50">
         {data.map((curAnime: Anime, index: number) => (
-          <AnimeList key={curAnime.id} anime={curAnime} idx={index + 1}/>
+          <AnimeList key={curAnime.id} anime={curAnime} idx={index + 1} />
         ))}
       </div>
     </div>

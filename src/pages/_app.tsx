@@ -14,12 +14,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta property="og:url" content="https://vote-anime.vercel.app/" />
         <meta property="og:title" content="Best-Anime" />
         <meta property="og:description" content="Choose your favorite anime" />
-        <meta property="og:image" content="/images/gundam.png"/>
+        <meta property="og:image" content="/images/gundam.png" />
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://vote-anime.vercel.app/" />
         <meta property="twitter:title" content="Best-Anime" />
         <meta property="twitter:description" content="Choose your favorite anime" />
-        <meta property="twitter:image" content="/images/gundam.png"/>
+        <meta property="twitter:image" content="/images/gundam.png" />
         <link rel="icon" href="/images/icons8-son-goku-cute-color-favicons/Web/icons8-son-goku-cute-color-120.png" />
       </Head>
       <Component {...pageProps} />

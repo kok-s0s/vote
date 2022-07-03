@@ -25,9 +25,9 @@ const Footer: React.FC<Props> = (props) => {
         <a>{t('result')}</a>
       </Link>
 
-      <Link href={props.href} locale={router.locale === 'en' ? 'zh' : router.locale === 'zh' ? 'jp' : router.locale === 'jp' ? 'en' : '' }>
-          <a>{t('change-locale')}</a>
-        </Link>
+      <Link href={props.href} locale={router.locale === 'en' ? 'zh' : router.locale === 'zh' ? 'jp' : router.locale === 'jp' ? 'en' : ''}>
+        <a>{t('change-locale')}</a>
+      </Link>
     </div>
   )
 }
